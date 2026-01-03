@@ -133,7 +133,6 @@
           currentExpression = '';
           display.textContent = '0';
         } else if (button.classList.contains('btn-equal')) {
-          // Evaluate expression
           if (currentExpression === '') return;
           try {
             const result = eval(currentExpression);
