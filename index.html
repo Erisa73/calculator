@@ -106,7 +106,6 @@
         const value = button.textContent;
 
         if (button.classList.contains('btn-number')) {
-          // Numbers and decimal point
           if (display.textContent === '0' && value !== '.') {
             currentExpression = value;
           } else {
@@ -114,14 +113,11 @@
           }
           display.textContent = currentExpression;
           } else if (button.classList.contains('btn-operator')) {
-          // Operators (+ - * /)
           if (currentExpression === '' && value === '-') {
-            // Start with a negative number
             currentExpression = '-';
           } else if (currentExpression !== '') {
             const lastChar = currentExpression.slice(-1);
             if ('+-*/'.includes(lastChar)) {
-              // Replace last operator
               currentExpression = currentExpression.slice(0, -1) + value;
             } else {
               currentExpression += value;
@@ -129,7 +125,6 @@
           }
           display.textContent = currentExpression || '0';
         } else if (button.classList.contains('btn-clear')) {
-          // Clear
           currentExpression = '';
           display.textContent = '0';
         } else if (button.classList.contains('btn-equal')) {
