@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Simple Calculator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background: #f2f2f2;
+    }
+
+    .calculator {
+      background: #222;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      width: 260px;
+    }
+
+    .display {
+      background: #000;
+      color: #0f0;
+      font-size: 32px;
+      text-align: right;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 10px;
+      box-sizing: border-box;
+      overflow: hidden;
+    }
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    button {
+      padding: 15px;
+      font-size: 18px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .btn-number {
+      background: #444;
+      color: #fff;
+    }
+
+    .btn-operator {
+      background: #ff9500;
+      color: #fff;
+    }
+
+    .btn-equal {
+      background: #34c759;
+      color: #fff;
+      grid-column: span 4;
+    }
+
+    .btn-clear {
+      background: #ff3b30;
+      color: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div id="display" class="display">0</div>
+    <div class="buttons">
+      <button class="btn-number">7</button>
+      <button class="btn-number">8</button>
+      <button class="btn-number">9</button>
+      <button class="btn-operator">/</button>
+
+      <button class="btn-number">4</button>
+      <button class="btn-number">5</button>
+      <button class="btn-number">6</button>
+      <button class="btn-operator">*</button>
+      <button class="btn-number">1</button>
+      <button class="btn-number">2</button>
+      <button class="btn-number">3</button>
+      <button class="btn-operator">-</button>
+
+      <button class="btn-number">0</button>
+      <button class="btn-number">.</button>
+      <button class="btn-clear">C</button>
+      <button class="btn-operator">+</button>
+
+      <button class="btn-equal">=</button>
+    </div>
+  </div>
+
+  <script>
+    const display = document.getElementById('display');
+    const buttons = document.querySelectorAll('button');
+
+    let currentExpression = '';
+
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        const value = button.textContent;
+
+        if (button.classList.contains('btn-number')) {
+          // Numbers and decimal point
+          if (display.textContent === '0' && value !== '.') {
+            currentExpression = value;
+          } else {
+            currentExpression += value;
+          }
+          display.textContent = currentExpression;
+          } else if (button.classList.contains('btn-operator')) {
+          // Operators (+ - * /)
+          if (currentExpression === '' && value === '-') {
+            // Start with a negative number
+            currentExpression = '-';
+          } else if (currentExpression !== '') {
+            const lastChar = currentExpression.slice(-1);
+            if ('+-*/'.includes(lastChar)) {
+              // Replace last operator
+              currentExpression = currentExpression.slice(0, -1) + value;
+            } else {
+              currentExpression += value;
+            }
+          }
+          display.textContent = currentExpression || '0';
+        } else if (button.classList.contains('btn-clear')) {
+          // Clear
+          currentExpression = '';
+          display.textContent = '0';
+        } else if (button.classList.contains('btn-equal')) {
+          // Evaluate expression
+          if (currentExpression === '') return;
+          try {
+            const result = eval(currentExpression);
+            display.textContent = result;
+            currentExpression = String(result);
+          } catch (e) {
+            display.textContent = 'Error';
+            currentExpression = '';
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
